@@ -1,0 +1,31 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: menu-service
+  description: Menu CRUD and content management — every great meal starts with a great menu
+  annotations:
+    github.com/project-slug: portal-interview/menu-service
+    backstage.io/techdocs-ref: dir:.
+  links:
+    - url: https://github.com/portal-interview/menu-service
+      title: GitHub
+spec:
+  type: service
+  lifecycle: production
+  owner: group:portal-interview/team-triple-d
+  system: menu-platform
+  providesApis:
+    - menu-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: menu-api
+  description: Menu management API
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:portal-interview/team-triple-d
+  system: menu-platform
+  definition:
+    $text: ./openapi.yaml

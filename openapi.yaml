@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: Menu API
+  description: Menu management — because every great meal starts with a great menu
+  version: 1.0.0
+servers:
+  - url: https://menu-service.flavortown.internal
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: Healthy
+  /menus:
+    get:
+      summary: List all menus
+      parameters:
+        - name: active
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: List of menus
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Menu'
+    post:
+      summary: Create a new menu
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuCreate'
+      responses:
+        '201':
+          description: Menu created
+  /menus/{menuId}:
+    get:
+      summary: Get a menu by ID
+      parameters:
+        - name: menuId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Menu details
+  /menus/{menuId}/items:
+    get:
+      summary: List menu items
+      parameters:
+        - name: menuId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of menu items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MenuItem'
+    post:
+      summary: Add item to menu
+      parameters:
+        - name: menuId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuItemCreate'
+      responses:
+        '201':
+          description: Item added
+components:
+  schemas:
+    Menu:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: "Summer Sizzle Menu"
+        description:
+          type: string
+        active:
+          type: boolean
+        itemCount:
+          type: integer
+    MenuCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    MenuItem:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: "Trash Can Nachos"
+        description:
+          type: string
+          example: "Layers of chips, cheese, pulled pork, and all the fixings"
+        price:
+          type: number
+          format: float
+          example: 14.99
+        category:
+          type: string
+          example: appetizers
+        allergens:
+          type: array
+          items:
+            type: string
+          example: ["dairy", "gluten"]
+        available:
+          type: boolean
+    MenuItemCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        category:
+          type: string
+        allergens:
+          type: array
+          items:
+            type: string
