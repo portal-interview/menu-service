@@ -12,7 +12,7 @@ metadata:
 spec:
   type: service
   lifecycle: production
-  owner: group:portal-interview/team-triple-d
+  owner: group:default/team-triple-d
   system: menu-platform
   providesApis:
     - menu-api
@@ -25,7 +25,7 @@ metadata:
 spec:
   type: openapi
   lifecycle: production
-  owner: group:portal-interview/team-triple-d
+  owner: group:default/team-triple-d
   system: menu-platform
   definition:
     $text: ./openapi.yaml
